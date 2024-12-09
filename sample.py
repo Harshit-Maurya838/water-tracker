@@ -7,6 +7,7 @@ from kivy.uix.image import Image
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import Image
+from kivy.core.window import Window
 from kivy.uix.widget import Widget
 from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import Color, Rectangle
@@ -32,7 +33,7 @@ class HomePage(Screen):
         layout.add_widget(label)
         layout.add_widget(button)
         self.add_widget(layout)
-
+        # Window.clearcolor = (0,0,0)
     def go_to_cards(self, instance):
         self.manager.current = 'cards'
 
@@ -115,6 +116,7 @@ class CardPage(Screen):
 
 class WaterTrackerApp(App):
     def build(self):
+        Window.clearcolor = (255,255,255)
         sm = ScreenManager(transition=FadeTransition())
         sm.add_widget(FlashPage(name='flash'))
         sm.add_widget(HomePage(name='home'))
