@@ -36,6 +36,7 @@ class DynamicCardsPage(Screen):
         grid_layout = GridLayout(cols=1, size_hint_y=None)
         grid_layout.bind(minimum_height=grid_layout.setter('height'))
 
+
         for i in range(10):
             card = Button(text=f'Card {i+1}', size_hint_y=None, height=100, on_press=self.go_to_card)
             grid_layout.add_widget(card)
@@ -43,21 +44,32 @@ class DynamicCardsPage(Screen):
         scroll_view.add_widget(grid_layout)
         layout.add_widget(scroll_view)
         self.add_widget(layout)
+        self.back_button = Button(text='Back', size_hint=(1, 0.1), on_press=self.go_back)
+        layout.add_widget(self.back_button)
 
     def go_to_card(self, instance):
         self.manager.current = 'card'
         self.manager.get_screen('card').update_card(instance.text)
+
+    def go_back(self, instance):
+        self.manager.current = 'home'
+
 
 class CardPage(Screen):
     def __init__(self, **kwargs):
         super(CardPage, self).__init__(**kwargs)
         self.layout = BoxLayout(orientation='vertical')
         self.label = Label(text='Card Details')
+        self.back_button = Button(text='Back', size_hint=(1, 0.1), on_press=self.go_back)
         self.layout.add_widget(self.label)
+        self.layout.add_widget(self.back_button)
         self.add_widget(self.layout)
 
     def update_card(self, card_name):
         self.label.text = f'Details of {card_name}'
+
+    def go_back(self, instance):
+        self.manager.current = 'cards'
 
 class WaterTrackerApp(App):
     def build(self):
