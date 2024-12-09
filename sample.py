@@ -18,7 +18,7 @@ class FlashPage(Screen):
     def __init__(self, **kwargs):
         super(FlashPage, self).__init__(**kwargs)
         layout = BoxLayout(orientation='vertical')
-        logo = Image(source='logo.png')
+        logo = Image(source='assets/logo.jpeg')
         layout.add_widget(logo)
         self.add_widget(layout)
 
@@ -137,7 +137,7 @@ class WaterTrackerApp(App):
 
         # Automatically switch to home after 2 seconds
         from kivy.clock import Clock
-        Clock.schedule_once(lambda dt: setattr(sm, 'current', 'home'), 2)
+        Clock.schedule_once(lambda dt: setattr(sm, 'current', 'home'), 5)
 
         return sm
 
