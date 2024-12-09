@@ -47,7 +47,7 @@ class DynamicCardsPage(Screen):
         grid_layout = GridLayout(cols=2, size_hint_y=None, spacing=10 )
         grid_layout.bind(minimum_height=grid_layout.setter('height'))
 
-        days = [
+        self.days = [
             'Monday',
             'Tuesday',
             'Wednesday',
@@ -59,8 +59,8 @@ class DynamicCardsPage(Screen):
 
         df = pd.read_excel('sampledata.xls')
 
-        days = df['Day'].unique()
-        for day in days:
+        self.days = df['Day'].unique()
+        for day in self.days:
             card = Button(text=day, size_hint_y=None, height=200, font_size=22, on_press=self.go_to_card, background_color=(0.2, 0.6, 0.9, 1))
             card.data = df[df['Day'] == day]
             grid_layout.add_widget(card)
@@ -80,7 +80,7 @@ class DynamicCardsPage(Screen):
 
     def go_to_card(self, instance):
         self.manager.current = 'card'
-        self.manager.get_screen('card').update_card(instance.text)
+        self.manager.get_screen('card').update_card(instance.text , self.days)
 
     def go_back(self, instance):
         self.manager.current = 'home'
@@ -96,10 +96,13 @@ class CardPage(Screen):
         self.layout.add_widget(self.label)
 
 
+    def update_card(self, card_name , days):
+        self.label.text = f'Details of {card_name}'
+        index = list(days).index(card_name)
         df = pd.read_excel('sampledata.xls')
         yindex = df['Liters']
         time = [n for n in range(0,6)]
-        y = yindex[5].split(',')
+        y = yindex[index].split(',')
         # Create a simple plot
         plt.plot(time, y)
         # plt.figure(figsize=(100,100))
@@ -115,18 +118,15 @@ class CardPage(Screen):
 
         # Close the plot to free memory
         plt.close()
-
-        self.layout.add_widget(Image(source=temp_path))
+        self.graphImage = Image(source=temp_path)
+        self.layout.add_widget(self.graphImage)
         self.layout.add_widget(self.back_button)
         self.add_widget(self.layout)
-
-
-    def update_card(self, card_name):
-        self.label.text = f'Details of {card_name}'
-
     def go_back(self, instance):
         self.manager.current = 'cards'
-
+        self.layout.remove_widget(self.graphImage)
+        self.layout.remove_widget(self.back_button)
+        self.remove_widget(self.layout)
 class WaterTrackerApp(App):
     def build(self):
         # Window.clearcolor = (255,255,255)
