@@ -39,11 +39,21 @@ class DynamicCardsPage(Screen):
         layout = BoxLayout(orientation='vertical', padding=20, spacing=20)
 
         scroll_view = ScrollView()
-        grid_layout = GridLayout(cols=1, size_hint_y=None, spacing=10)
+        grid_layout = GridLayout(cols=2, size_hint_y=None, spacing=10 )
         grid_layout.bind(minimum_height=grid_layout.setter('height'))
 
-        for i in range(10):
-            card = Button(text=f'Card {i+1}', size_hint_y=None, height=100, on_press=self.go_to_card, background_color=(0.2, 0.6, 0.9, 1))
+        days = [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday'
+        ]
+        
+        for i in days:
+            card = Button(text=f'{i}', size_hint_y=None, height=200, font_size = 22 ,on_press=self.go_to_card, background_color=(0.2, 0.6, 0.9, 1))
             grid_layout.add_widget(card)
 
         scroll_view.add_widget(grid_layout)
