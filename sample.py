@@ -6,9 +6,12 @@ from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.image import Image
 from kivy.uix.widget import Widget
 from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import Color, Rectangle
+import matplotlib.pyplot as plt
+import tempfile
 
 class FlashPage(Screen):
     def __init__(self, **kwargs):
@@ -80,9 +83,29 @@ class CardPage(Screen):
         self.back_button = Button(text='Back', size_hint=(1, 0.1), on_press=self.go_back, background_color=(0.8, 0.1, 0.1, 1))
 
         self.layout.add_widget(self.label)
+        x = [n for n in range(0,150)]
+        y = [n for n in range(100,250)]
+
+        # Create a simple plot
+        plt.plot(x, y)
+        # plt.figure(figsize=(100,100))
+        plt.title('Sample Graph')
+        plt.xlabel('X Axis')
+        plt.ylabel('Y Axis')
+
+        # Save the plot to a temporary image
+        with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as temp_file:
+            temp_path = temp_file.name
+            plt.savefig(temp_path)
+            print(f"Graph saved to temporary file: {temp_path}")
+
+        # Close the plot to free memory
+        plt.close()
         
+        self.layout.add_widget(Image(source=temp_path))
         self.layout.add_widget(self.back_button)
         self.add_widget(self.layout)
+    
 
     def update_card(self, card_name):
         self.label.text = f'Details of {card_name}'
