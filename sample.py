@@ -29,7 +29,7 @@ class HomePage(Screen):
         super(HomePage, self).__init__(**kwargs)
         layout = BoxLayout(orientation='vertical', padding=0, spacing=50)
 
-        label = Label(text='Welcome to Water Tracker', font_size='20sp', bold=True)
+        label = Label(text='Welcome to Water Tracker', font_size='40sp', bold=True)
         button = Button(text='Get every day stats', size_hint=(1, 0.2),font_size = 20 ,on_press=self.go_to_cards, background_color=(0.1, 0.5, 0.8, 1))
 
         layout.add_widget(label)
@@ -56,6 +56,9 @@ class HomePage(Screen):
             avg = (np.array(time).sum()) / total
             currentAvg.append(avg)
         
+        plt.xlabel("Days")
+        plt.ylabel("Average consumption per day")
+        plt.title("Weekly consumption")
         plt.plot(days,currentAvg)
         with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as temp_file:
             temp_path = temp_file.name
@@ -175,7 +178,7 @@ class WaterTrackerApp(App):
 
         # Automatically switch to home after 2 seconds
         from kivy.clock import Clock
-        Clock.schedule_once(lambda dt: setattr(sm, 'current', 'home'), 1)
+        Clock.schedule_once(lambda dt: setattr(sm, 'current', 'home'), 3)
 
         return sm
 
