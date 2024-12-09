@@ -6,6 +6,9 @@ from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.widget import Widget
+from kivy.uix.floatlayout import FloatLayout
+from kivy.graphics import Color, Rectangle
 
 class FlashPage(Screen):
     def __init__(self, **kwargs):
@@ -18,9 +21,11 @@ class FlashPage(Screen):
 class HomePage(Screen):
     def __init__(self, **kwargs):
         super(HomePage, self).__init__(**kwargs)
-        layout = BoxLayout(orientation='vertical')
-        label = Label(text='Welcome to Water Tracker')
-        button = Button(text='Go to Dynamic Cards', on_press=self.go_to_cards)
+        layout = BoxLayout(orientation='vertical', padding=20, spacing=20)
+
+        label = Label(text='Welcome to Water Tracker', font_size='24sp', bold=True)
+        button = Button(text='Go to Dynamic Cards', size_hint=(1, 0.2), on_press=self.go_to_cards, background_color=(0.1, 0.5, 0.8, 1))
+
         layout.add_widget(label)
         layout.add_widget(button)
         self.add_widget(layout)
@@ -31,21 +36,23 @@ class HomePage(Screen):
 class DynamicCardsPage(Screen):
     def __init__(self, **kwargs):
         super(DynamicCardsPage, self).__init__(**kwargs)
-        layout = BoxLayout(orientation='vertical')
+        layout = BoxLayout(orientation='vertical', padding=20, spacing=20)
+
         scroll_view = ScrollView()
-        grid_layout = GridLayout(cols=1, size_hint_y=None)
+        grid_layout = GridLayout(cols=1, size_hint_y=None, spacing=10)
         grid_layout.bind(minimum_height=grid_layout.setter('height'))
 
-
         for i in range(10):
-            card = Button(text=f'Card {i+1}', size_hint_y=None, height=100, on_press=self.go_to_card)
+            card = Button(text=f'Card {i+1}', size_hint_y=None, height=100, on_press=self.go_to_card, background_color=(0.2, 0.6, 0.9, 1))
             grid_layout.add_widget(card)
 
         scroll_view.add_widget(grid_layout)
         layout.add_widget(scroll_view)
-        self.add_widget(layout)
-        self.back_button = Button(text='Back', size_hint=(1, 0.1), on_press=self.go_back)
+
+        self.back_button = Button(text='Back', size_hint=(1, 0.1), on_press=self.go_back, background_color=(0.8, 0.1, 0.1, 1))
         layout.add_widget(self.back_button)
+
+        self.add_widget(layout)
 
     def go_to_card(self, instance):
         self.manager.current = 'card'
@@ -54,13 +61,14 @@ class DynamicCardsPage(Screen):
     def go_back(self, instance):
         self.manager.current = 'home'
 
-
 class CardPage(Screen):
     def __init__(self, **kwargs):
         super(CardPage, self).__init__(**kwargs)
-        self.layout = BoxLayout(orientation='vertical')
-        self.label = Label(text='Card Details')
-        self.back_button = Button(text='Back', size_hint=(1, 0.1), on_press=self.go_back)
+        self.layout = BoxLayout(orientation='vertical', padding=20, spacing=20)
+
+        self.label = Label(text='Card Details', font_size='24sp', bold=True)
+        self.back_button = Button(text='Back', size_hint=(1, 0.1), on_press=self.go_back, background_color=(0.8, 0.1, 0.1, 1))
+
         self.layout.add_widget(self.label)
         self.layout.add_widget(self.back_button)
         self.add_widget(self.layout)
