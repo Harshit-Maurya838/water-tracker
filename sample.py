@@ -97,9 +97,11 @@ class CardPage(Screen):
 
 
         df = pd.read_excel('sampledata.xls')
-        y = df['Liters'].values
+        yindex = df['Liters']
+        time = [n for n in range(0,6)]
+        y = yindex[5].split(',')
         # Create a simple plot
-        plt.plot(df['Time'], y)
+        plt.plot(time, y)
         # plt.figure(figsize=(100,100))
         plt.title('Water Tracker')
         plt.xlabel('Time')
@@ -127,7 +129,7 @@ class CardPage(Screen):
 
 class WaterTrackerApp(App):
     def build(self):
-        Window.clearcolor = (255,255,255)
+        # Window.clearcolor = (255,255,255)
         sm = ScreenManager(transition=FadeTransition())
         sm.add_widget(FlashPage(name='flash'))
         sm.add_widget(HomePage(name='home'))
