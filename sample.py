@@ -13,6 +13,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import Color, Rectangle
 import matplotlib.pyplot as plt
+import numpy as np
 import tempfile
 
 class FlashPage(Screen):
@@ -26,12 +27,45 @@ class FlashPage(Screen):
 class HomePage(Screen):
     def __init__(self, **kwargs):
         super(HomePage, self).__init__(**kwargs)
-        layout = BoxLayout(orientation='vertical', padding=20, spacing=20)
+        layout = BoxLayout(orientation='vertical', padding=0, spacing=50)
 
-        label = Label(text='Welcome to Water Tracker', font_size='24sp', bold=True)
+        label = Label(text='Welcome to Water Tracker', font_size='20sp', bold=True)
         button = Button(text='Get every day stats', size_hint=(1, 0.2),font_size = 20 ,on_press=self.go_to_cards, background_color=(0.1, 0.5, 0.8, 1))
 
         layout.add_widget(label)
+        df = pd.read_excel('sampledata.xls')
+        yindex = df['Liters']
+        currentAvg = []
+        days = [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday'
+        ]
+        time = [n for n in range(0,6)] #Going to edit it also remember!!
+        for i in range(0,7):
+            y = yindex[i].split(',')
+            total = 0
+            for j in y:
+                yint = int(j)
+                total += yint
+            
+            avg = (np.array(time).sum()) / total
+            currentAvg.append(avg)
+        
+        plt.plot(days,currentAvg)
+        with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as temp_file:
+            temp_path = temp_file.name
+            plt.savefig(temp_path)
+            print(f"Graph saved to temporary file: {temp_path}")
+
+        # Close the plot to free memory
+        plt.close()
+        self.graphImage = Image(source=temp_path)
+        layout.add_widget(self.graphImage)
         layout.add_widget(button)
         self.add_widget(layout)
         # Window.clearcolor = (0,0,0)
@@ -141,7 +175,7 @@ class WaterTrackerApp(App):
 
         # Automatically switch to home after 2 seconds
         from kivy.clock import Clock
-        Clock.schedule_once(lambda dt: setattr(sm, 'current', 'home'), 5)
+        Clock.schedule_once(lambda dt: setattr(sm, 'current', 'home'), 1)
 
         return sm
 
