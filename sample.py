@@ -24,7 +24,7 @@ class HomePage(Screen):
         layout = BoxLayout(orientation='vertical', padding=20, spacing=20)
 
         label = Label(text='Welcome to Water Tracker', font_size='24sp', bold=True)
-        button = Button(text='Go to Dynamic Cards', size_hint=(1, 0.2), on_press=self.go_to_cards, background_color=(0.1, 0.5, 0.8, 1))
+        button = Button(text='Get every day stats', size_hint=(1, 0.2),font_size = 20 ,on_press=self.go_to_cards, background_color=(0.1, 0.5, 0.8, 1))
 
         layout.add_widget(label)
         layout.add_widget(button)
@@ -76,10 +76,11 @@ class CardPage(Screen):
         super(CardPage, self).__init__(**kwargs)
         self.layout = BoxLayout(orientation='vertical', padding=20, spacing=20)
 
-        self.label = Label(text='Card Details', font_size='24sp', bold=True)
+        self.label = Label(text='Get more details', font_size='24sp', bold=True)
         self.back_button = Button(text='Back', size_hint=(1, 0.1), on_press=self.go_back, background_color=(0.8, 0.1, 0.1, 1))
 
         self.layout.add_widget(self.label)
+        
         self.layout.add_widget(self.back_button)
         self.add_widget(self.layout)
 
