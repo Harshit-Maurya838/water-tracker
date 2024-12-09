@@ -1,3 +1,4 @@
+import pandas as pd
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.boxlayout import BoxLayout
@@ -55,10 +56,19 @@ class DynamicCardsPage(Screen):
             'Saturday',
             'Sunday'
         ]
-        
-        for i in days:
-            card = Button(text=f'{i}', size_hint_y=None, height=200, font_size = 22 ,on_press=self.go_to_card, background_color=(0.2, 0.6, 0.9, 1))
+
+        df = pd.read_excel('sampledata.xls')
+
+        days = df['Day'].unique()
+        for day in days:
+            card = Button(text=day, size_hint_y=None, height=200, font_size=22, on_press=self.go_to_card, background_color=(0.2, 0.6, 0.9, 1))
+            card.data = df[df['Day'] == day]
             grid_layout.add_widget(card)
+
+
+        # for i in days:
+        #     card = Button(text=f'{i}', size_hint_y=None, height=200, font_size = 22 ,on_press=self.go_to_card, background_color=(0.2, 0.6, 0.9, 1))
+        #     grid_layout.add_widget(card)
 
         scroll_view.add_widget(grid_layout)
         layout.add_widget(scroll_view)
@@ -84,15 +94,16 @@ class CardPage(Screen):
         self.back_button = Button(text='Back', size_hint=(1, 0.1), on_press=self.go_back, background_color=(0.8, 0.1, 0.1, 1))
 
         self.layout.add_widget(self.label)
-        x = [n for n in range(0,150)]
-        y = [n for n in range(100,250)]
 
+
+        df = pd.read_excel('sampledata.xls')
+        y = df['Liters'].values
         # Create a simple plot
-        plt.plot(x, y)
+        plt.plot(df['Time'], y)
         # plt.figure(figsize=(100,100))
-        plt.title('Sample Graph')
-        plt.xlabel('X Axis')
-        plt.ylabel('Y Axis')
+        plt.title('Water Tracker')
+        plt.xlabel('Time')
+        plt.ylabel('Liters')
 
         # Save the plot to a temporary image
         with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as temp_file:
@@ -102,11 +113,11 @@ class CardPage(Screen):
 
         # Close the plot to free memory
         plt.close()
-        
+
         self.layout.add_widget(Image(source=temp_path))
         self.layout.add_widget(self.back_button)
         self.add_widget(self.layout)
-    
+
 
     def update_card(self, card_name):
         self.label.text = f'Details of {card_name}'
