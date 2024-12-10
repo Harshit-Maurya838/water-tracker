@@ -1,7 +1,3 @@
-Here's how the description can be broken down into smaller, organized key points for a README.md file with highlights: 
-
----
-
 # **Water-Tracker: A Household Water Usage Tracker**
 
 ## **Objective**
