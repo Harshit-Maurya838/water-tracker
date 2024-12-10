@@ -132,10 +132,11 @@ class CardPage(Screen):
         index = list(days).index(card_name)
         df = pd.read_excel('sampledata.xls')
         yindex = df['Liters']
-        time = [n for n in range(0, 6)]
+        xindex = df['Time']
+        x = xindex[index].split(',')
         y = yindex[index].split(',')
         # Create a simple plot
-        plt.plot(time, y)
+        plt.plot(x, y)
         plt.title('Water Tracker')
         plt.xlabel('Time')
         plt.ylabel('Liters')
