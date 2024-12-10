@@ -149,7 +149,7 @@ class CardPage(Screen):
 
         # Close the plot to free memory
         plt.close()
-        self.graphImage = Image(source=temp_path, size_hint=(0.8, 0.6), pos_hint={'x': 0.1, 'y': 0.2})
+        self.graphImage = Image(source=temp_path, size_hint=(0.8,0.6), pos_hint={'x': 0.1, 'y': 0.2})
         self.layout.add_widget(self.graphImage)
         self.layout.add_widget(self.back_button)
         self.add_widget(self.layout)
