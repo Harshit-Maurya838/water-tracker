@@ -2,16 +2,13 @@ import pandas as pd
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import Image
-from kivy.core.window import Window
-from kivy.uix.widget import Widget
-from kivy.uix.floatlayout import FloatLayout
-from kivy.graphics import Color, Rectangle
 import matplotlib.pyplot as plt
 import numpy as np
 import tempfile
@@ -71,7 +68,6 @@ class HomePage(Screen):
         layout.add_widget(self.graphImage)
         layout.add_widget(button)
         self.add_widget(layout)
-        # Window.clearcolor = (0,0,0)
     def go_to_cards(self, instance):
         self.manager.current = 'cards'
 
@@ -125,7 +121,8 @@ class DynamicCardsPage(Screen):
 class CardPage(Screen):
     def __init__(self, **kwargs):
         super(CardPage, self).__init__(**kwargs)
-        self.layout = BoxLayout(orientation='vertical', padding=20, spacing=20)
+        # self.layout = BoxLayout(orientation='vertical', padding=20, spacing=20)
+        self.layout = FloatLayout()
 
         self.label = Label(text='Get more details', font_size='24sp', bold=True)
         self.back_button = Button(text='Back', size_hint=(1, 0.1), on_press=self.go_back, background_color=(0.8, 0.1, 0.1, 1))
@@ -166,7 +163,6 @@ class CardPage(Screen):
         self.remove_widget(self.layout)
 class WaterTrackerApp(App):
     def build(self):
-        # Window.clearcolor = (255,255,255)
         sm = ScreenManager(transition=FadeTransition())
         sm.add_widget(FlashPage(name='flash'))
         sm.add_widget(HomePage(name='home'))
