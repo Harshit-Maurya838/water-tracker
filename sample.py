@@ -127,7 +127,6 @@ class CardPage(Screen):
     def __init__(self, **kwargs):
         super(CardPage, self).__init__(**kwargs)
         self.layout = FloatLayout()
-
         self.label = Label(text='Get more details', font_size='24sp', bold=True, size_hint=(0.8, 0.1), pos_hint={'x': 0.1, 'y': 0.8})
         self.back_button = Button(text='Back', size_hint=(0.2, 0.1), pos_hint={'x': 0.4, 'y': 0.05}, on_press=self.go_back, background_color=(0.8, 0.1, 0.1, 1))
 
