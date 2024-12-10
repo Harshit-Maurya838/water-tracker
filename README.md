@@ -70,7 +70,7 @@ We welcome contributions to enhance this project! Here’s how you can help:
 ## **Getting Started**
 1. Clone the repository:
    ```bash
-  https://github.com/Harshit-Maurya838/water-tracker
+   https://github.com/Harshit-Maurya838/water-tracker
    ```
 2. Follow the setup guide in [**Setup Instructions**](#).
 
