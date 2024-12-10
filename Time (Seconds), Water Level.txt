@@ -1,0 +1,4 @@
+Time (Seconds), Water Level
+0, 523
+60, 520
+120, 518
