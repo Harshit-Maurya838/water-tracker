@@ -2,6 +2,7 @@ import pandas as pd
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.image import Image
@@ -52,10 +53,10 @@ class HomePage(Screen):
             for j in y:
                 yint = int(j)
                 total += yint
-            
+
             avg = (np.array(time).sum()) / total
             currentAvg.append(avg)
-        
+
         plt.xlabel("Days")
         plt.ylabel("Average consumption per day")
         plt.title("Weekly consumption")
@@ -125,24 +126,22 @@ class DynamicCardsPage(Screen):
 class CardPage(Screen):
     def __init__(self, **kwargs):
         super(CardPage, self).__init__(**kwargs)
-        self.layout = BoxLayout(orientation='vertical', padding=20, spacing=20)
+        self.layout = FloatLayout()
 
-        self.label = Label(text='Get more details', font_size='24sp', bold=True)
-        self.back_button = Button(text='Back', size_hint=(1, 0.1), on_press=self.go_back, background_color=(0.8, 0.1, 0.1, 1))
+        self.label = Label(text='Get more details', font_size='24sp', bold=True, size_hint=(0.8, 0.1), pos_hint={'x': 0.1, 'y': 0.8})
+        self.back_button = Button(text='Back', size_hint=(0.2, 0.1), pos_hint={'x': 0.4, 'y': 0.05}, on_press=self.go_back, background_color=(0.8, 0.1, 0.1, 1))
 
         self.layout.add_widget(self.label)
 
-
-    def update_card(self, card_name , days):
+    def update_card(self, card_name, days):
         self.label.text = f'Details of {card_name}'
         index = list(days).index(card_name)
         df = pd.read_excel('sampledata.xls')
         yindex = df['Liters']
-        time = [n for n in range(0,6)]
+        time = [n for n in range(0, 6)]
         y = yindex[index].split(',')
         # Create a simple plot
         plt.plot(time, y)
-        # plt.figure(figsize=(100,100))
         plt.title('Water Tracker')
         plt.xlabel('Time')
         plt.ylabel('Liters')
@@ -155,10 +154,11 @@ class CardPage(Screen):
 
         # Close the plot to free memory
         plt.close()
-        self.graphImage = Image(source=temp_path)
+        self.graphImage = Image(source=temp_path, size_hint=(0.8, 0.6), pos_hint={'x': 0.1, 'y': 0.2})
         self.layout.add_widget(self.graphImage)
         self.layout.add_widget(self.back_button)
         self.add_widget(self.layout)
+
     def go_back(self, instance):
         self.manager.current = 'cards'
         self.layout.remove_widget(self.graphImage)
