@@ -1,0 +1,4 @@
+Day, Date, Time (HH:MM:SS:MS), Water Level
+Monday, 9/12/2024, 0:0:0:0, 523
+Monday, 9/12/2024, 0:1:0:0, 520
+Tuesday, 10/12/2024, 0:0:0:0, 518
