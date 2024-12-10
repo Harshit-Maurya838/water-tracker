@@ -16,7 +16,7 @@ The **Water-Tracker** aims to provide an affordable and efficient system for mon
 
 ## **Features**
 1. **Real-Time Monitoring**  
-   - Continuously monitors tank water levels.  
+   - Monitors tank water levels every 3 hours.  
    - Displays water level readings instantly in the **Serial Monitor**.
 
 2. **Timestamped Data Logging**  
